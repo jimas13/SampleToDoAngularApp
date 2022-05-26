@@ -40,3 +40,9 @@ jobs:
       - name: Build
         run: |
           npm run build -- --prod
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ToDoAppFrontEndSecond
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+
