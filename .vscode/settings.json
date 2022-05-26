@@ -1,0 +1,9 @@
+{
+    "FSharp.suggestGitignore": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/2cdd7308-692f-41dc-93ff-0769ecb5b175/resourceGroups/AppTestBench/providers/Microsoft.Web/sites/AppFrontEnd",
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}
