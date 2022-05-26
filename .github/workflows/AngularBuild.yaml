@@ -44,5 +44,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ToDoAppFrontEndSecond
-          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
