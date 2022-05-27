@@ -1,4 +1,4 @@
-name: Angular GitHub CI
+name: Angular-Azure GitHub CI
 on:
   push:
     branches:
@@ -9,31 +9,39 @@ env:
   NODE_VERSION: '16.13.0'                # set this to the node version to use
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.13.0]
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: npm install, build, and test
-        run: |
-          # Build and test the project, then
-          # deploy to Azure Web App.
-          npm install
-          npm run build --if-present
-        working-directory: .
-      - name: 'Deploy to Azure WebApp'
-        uses: azure/webapps-deploy@v2
-        with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/dist/ToDoApp
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install, build, and test
+      run: |
+        # Build and test the project, then
+        # deploy to Azure Web App.
+        npm install
+        npm run build --if-present
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: ToDoApp
+        path: dist/ToDoApp/
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: ToDoApp
+    - name: 'Deploy to Azure Web App'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
