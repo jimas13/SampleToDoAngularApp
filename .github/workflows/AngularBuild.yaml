@@ -11,7 +11,7 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_WEBAPP_NAME: your-app-name    # set this to your application's name
+  AZURE_WEBAPP_NAME: AppTestBenchFrontEnd    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './dist/ToDoApp'      # set this to the path to your web app project
   NODE_VERSION: '16.13.0'                 # set this to the node version to use
 
@@ -34,5 +34,5 @@ jobs:
       uses: azure/webapps-deploy@v1
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_DEV_WEB_APP_PUB_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
