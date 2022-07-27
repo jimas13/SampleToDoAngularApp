@@ -1,7 +1,14 @@
 name: Angular-Azure GitHub CI
 
 on:
-  [push]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'The reason for running the workflow'
+        required: true
+        default: 'Manual build from Github UI'
+  push:
+    branches: [main]
 
 # CONFIGURATION
 # For help, go to https://github.com/Azure/Actions
